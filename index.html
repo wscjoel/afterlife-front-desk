@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>忘川前台 — AFTERLIFE FRONT DESK</title>
+<meta name="description" content="1-bit 短篇视觉小说。玩家扮演已故的灵魂澪，在逝者接待处与前辈奈美、玲一同处理各类接引事务。" />
+<link rel="stylesheet" href="https://fontsapi.zeoseven.com/570/main/result.css" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ======== 标题画面 ======== -->
+<section id="title-screen" class="screen">
+  <div class="title-bg"></div>
+  <div class="title-inner">
+    <p class="title-en">AFTERLIFE FRONT DESK</p>
+    <h1 class="title-zh">忘川前台</h1>
+    <p class="title-tag">死亡是免费的，但死后的一切都要排队。</p>
+    <div class="title-btns">
+      <button id="btn-start" class="px-btn">▶ 开始接引</button>
+      <button id="btn-continue" class="px-btn hidden">▶ 继续上班</button>
+      <button id="btn-title-quotes" class="px-btn ghost">✦ 亡语集</button>
+    </div>
+    <p class="title-foot">1-BIT VISUAL NOVEL ・ 篇幅约 40-60 分钟 ・ 点击推进</p>
+  </div>
+</section>
+
+<!-- ======== 游戏画面 ======== -->
+<main id="game" class="screen hidden">
+  <header class="topbar">
+    <span class="os-label">MEIDO FRONTDESK OS v0.6.8</span>
+    <span id="chapter-label" class="chapter-label"></span>
+    <span class="topbar-btns">
+      <button id="btn-quotes" class="bar-btn">亡语集</button>
+      <button id="btn-skip" class="bar-btn">▸▸</button>
+      <button id="btn-panel" class="bar-btn">SOUL</button>
+    </span>
+  </header>
+
+  <div id="stage" class="stage">
+    <div class="stage-frame"></div>
+    <div id="scene" class="scene"><img id="scene-img" alt="" /></div>
+    <div id="portrait" class="portrait"></div>
+    <div id="orb-wrap" class="orb-wrap">
+      <canvas id="orb-canvas"></canvas>
+      <span class="orb-label">VISITOR SOUL</span>
+    </div>
+
+    <!-- 灵魂参数侧栏 -->
+    <aside id="side-panel" class="side-panel">
+      <p class="panel-title">SOUL PARAMETER</p>
+      <div id="stats-list"></div>
+      <p class="panel-title">AFFINITY</p>
+      <div id="affinity-list"></div>
+      <div class="panel-orb"><canvas id="panel-orb-canvas"></canvas></div>
+      <p class="panel-foot">FORCE CLEAR TO TARGET<br>CALCULATE TOTAL ERROR</p>
+    </aside>
+
+    <!-- 对话框 -->
+    <div id="dialog" class="dialog">
+      <span id="name-tag" class="name-tag"></span>
+      <p id="text-body" class="text-body"></p>
+      <span id="next-hint" class="next-hint">▼</span>
+    </div>
+
+    <!-- 选项 -->
+    <div id="choices" class="choices"></div>
+  </div>
+
+  <!-- 黑屏字卡 -->
+  <div id="card-overlay" class="card-overlay">
+    <p id="card-text"></p>
+    <span class="card-hint">CLICK</span>
+  </div>
+</main>
+
+<!-- ======== 结局画面 ======== -->
+<section id="end-screen" class="screen hidden">
+  <div class="end-inner">
+    <p class="title-en">SOUL REPORT</p>
+    <h2>灵魂鉴定书</h2>
+    <div id="end-profile"></div>
+    <button id="btn-restart" class="px-btn">▶ 回到标题</button>
+  </div>
+</section>
+
+<!-- ======== 亡语集 ======== -->
+<div id="quotes-modal" class="quotes-modal">
+  <div class="quotes-box">
+    <header>
+      <span>✦ 亡语集 — DYING WORDS</span>
+      <button id="btn-quotes-close">×</button>
+    </header>
+    <div id="quotes-list" class="quotes-list"></div>
+    <footer>
+      <button id="btn-copy-all" class="px-btn small">一键复制全部</button>
+    </footer>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="js/story.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

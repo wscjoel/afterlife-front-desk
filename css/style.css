@@ -57,7 +57,7 @@ body::after {
 .title-bg {
   position: absolute;
   inset: 0;
-  background: url('../assets/img/title-bg.png') center/cover no-repeat;
+  background: url('../assets/img/title-bg.jpg') center/cover no-repeat;
   image-rendering: pixelated;
   opacity: .9;
 }

@@ -239,11 +239,40 @@
     showLine(node);
   }
 
+  /* ---------- 图片资源 ---------- */
+  var IMG_DIR = 'assets/img/';
+  var IMG_EXT = '.jpg';
+  function imgUrl(name) { return IMG_DIR + name + IMG_EXT; }
+  // 全部图片资源，进入页面即预热，避免 iOS 切换时白屏
+  var PRELOAD_IMAGES = [
+    'title-bg', 'office', 'queue', 'mio', 'nami', 'rei',
+    'guest-kacho', 'guest-rin', 'guest-obaachan',
+    'memory-daughter', 'memory-firstvideo', 'memory-unread',
+  ];
+  var imgCache = {};
+  function preloadImages() {
+    PRELOAD_IMAGES.forEach(function (n) {
+      var im = new Image();
+      im.decoding = 'async';
+      im.src = imgUrl(n);
+      imgCache[n] = im;
+    });
+  }
+
   /* ---------- 情节场景插画 ---------- */
   function setScene(name) {
     state.scene = name || null;
     if (state.scene) {
-      el.sceneImg.src = 'assets/img/' + state.scene + '.png';
+      var src = imgUrl(state.scene);
+      el.sceneImg.onload = function () { el.sceneImg.removeAttribute('data-retry'); };
+      el.sceneImg.onerror = function () {
+        // iOS 上偶发解码/加载失败：重试一次（带时间戳绕过缓存）
+        if (el.sceneImg.getAttribute('data-retry')) return;
+        el.sceneImg.setAttribute('data-retry', '1');
+        el.sceneImg.src = src + '?r=' + Date.now();
+      };
+      el.sceneImg.removeAttribute('data-retry');
+      el.sceneImg.src = src;
       el.scene.classList.add('show');
     } else {
       el.scene.classList.remove('show');
@@ -273,12 +302,12 @@
     el.portrait.className = 'portrait';
     var hasForeground = false;
     if (sp === 'mio' || sp === 'nami' || sp === 'rei') {
-      el.portrait.style.backgroundImage = 'url(assets/img/' + sp + '.png)';
+      el.portrait.style.backgroundImage = 'url(' + imgUrl(sp) + ')';
       el.portrait.classList.add('show', 'p-' + sp);
       el.orbWrap.classList.remove('show');
       hasForeground = true;
     } else if (isGuest && face) {
-      el.portrait.style.backgroundImage = 'url(assets/img/' + face + '.png)';
+      el.portrait.style.backgroundImage = 'url(' + imgUrl(face) + ')';
       el.portrait.classList.add('show', 'p-guest');
       el.orbWrap.classList.remove('show');
       hasForeground = true;
@@ -416,6 +445,8 @@
 
   function init() {
     cacheDom();
+    el.sceneImg.decoding = 'async';
+    preloadImages();
     makeOrb(el.orbCanvas, { density: 80 });
     makeOrb(el.panelOrbCanvas, { density: 40 });
 
